@@ -1,0 +1,4 @@
+rootProject.name = 'DA-Projekt-Refactoring-EIS'
+include 'server'
+include 'core'
+include 'eis'

@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.springframework.boot' version '3.3.4'
+}
+
+allprojects {
+    group = 'at.ribinin'
+    version = '0.0.1-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'war'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        compileOnly 'org.projectlombok:lombok'
+        runtimeOnly 'com.h2database:h2'
+        annotationProcessor 'org.projectlombok:lombok'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+        implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
+        implementation 'org.mapstruct:mapstruct:1.6.3'
+        annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+        implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+        // MariaDB
+        implementation 'org.mariadb.jdbc:mariadb-java-client:3.5.0'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    bootJar {
+        enabled = true
+        mainClass = 'at.ribinin.Application'
+    }
+    bootWar {
+        enabled = true
+        mainClass = 'at.ribinin.Application'
+    }
+    war.enabled = false
+
+}
+
+dependencies {
+    implementation project(':server')
+}
